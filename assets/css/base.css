@@ -2,6 +2,8 @@
     --white-color: #fff;
     --blackcolor: #000;
     --text-color:#231f20;
+    --primary-color:#f91e1e;
+    --header-height:60px;
 }
 
 *{
@@ -13,4 +15,13 @@ html{
     line-height: 1.6rem;
     font-family: 'Roboto', sans-serif;
     box-sizing: border-box;
+}
+
+.new-banner{
+    background: green;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-weight: bold;
 }

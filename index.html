@@ -152,66 +152,82 @@
             </div>
         </header>
         <div class="site-container">
-            <div class="home-slideshow">
-                <div>
-                    <div class="slideshow-container">
-                        <div class="slideshow__slide">
-                            <img class="slideshow__slide-img" src="./assets/img/slide_show_4.jpg" id="lastClone" alt="">
-                            <img class="slideshow__slide-img" src="./assets/img/slide_show_1.jpg" alt="">
-                            <img class="slideshow__slide-img" src="./assets/img/slide_show_2.jpg" alt="">
-                            <img class="slideshow__slide-img" src="./assets/img/slide_show_3.jpg" alt="">
-                            <img class="slideshow__slide-img" src="./assets/img/slide_show_4.jpg" alt="">
-                            <img class="slideshow__slide-img" src="./assets/img/slide_show_1.jpg" id="firstClone" alt="">
-                        </div>
-                    </div>
-                    <button id="preBtn">Pre</button>
-                    <button id="nexBtn">Next</button>
+            <div class="site-slideshow">
+                <div class="slideshow fade">
+                    <img class="slideshow-img" src="./assets/img/slide_show_1.jpg">
                 </div>
-                <script>
-                    const slideShowSlide=document.querySelector('.slideshow__slide');
-                    const slideShowImages=document.querySelectorAll('.slideshow__slide img');
+                
+                <div class="slideshow fade">
+                    <img class="slideshow-img" src="./assets/img/slide_show_2.jpg">
+                </div>
+                
+                <div class="slideshow fade">
+                    <img class="slideshow-img" src="./assets/img/slide_show_3.jpg">
+                </div>
+                
+                <div class="slideshow fade">
+                    <img class="slideshow-img" src="./assets/img/slide_show_4.jpg">
+                </div>
 
-                    const preButton = document.querySelector('#preBtn');
-                    const nextButton = document.querySelector('#nexBtn');
+                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                  
+                <div class="dotsbox" style="text-align:center">
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                    <span class="dot" onclick="currentSlide(4)"></span>
+                </div>
+
+                <script>
+                    const slideShow=document.querySelectorAll('.slideshow');
+                    const dot = document.querySelectorAll('.dot');
 
                     let counter = 1;
-                    const imageSize = slideShowImages[0].clientWidth;
-                    console.log(imageSize);
+                    slidefun(counter);
 
-                    slideShowSlide.style.transform = 'translateX(' + (-imageSize * counter ) + 'px)';
+                    let timer = setInterval(autoSlide, 8000);
+                    function autoSlide() {
+	                    counter += 1;
+	                    slidefun(counter);
+                    }
 
-                    nextButton.addEventListener('click',()=>{
-                        if (counter >= slideShowImages.length - 1){
-                            return;
+                    function plusSlides(n){
+                        counter += n;
+                        slidefun(counter);
+                        resetTimer();
+                    }
+
+                    function currentSlide(n){
+                        counter = n;
+                        slidefun(counter);
+                        resetTimer();
+                    }
+
+                    function resetTimer() {
+	                    clearInterval(timer);
+	                    timer = setInterval(autoSlide, 8000);
+                    }
+                    function slidefun(n){
+                        let i;
+                        for(i = 0;i < slideShow.length; i++){
+                            slideShow[i].style.display = "none";
                         }
-                        slideShowSlide.style.transition = "transform 0.4s ease-in-out";
-                        counter++;
-                        slideShowSlide.style.transform = 'translateX(' + (-imageSize * counter ) + 'px';
-                    });
 
-                    preButton.addEventListener('click',()=>{
-                        if (counter <= 0){
-                            return;
-                        }
-                        slideShowSlide.style.transition = "transform 0.4s ease-in-out";
-                        counter--;
-                        slideShowSlide.style.transform = 'translateX(' + (-imageSize * counter ) + 'px';
-                    });
-
-                    slideShowSlide.addEventListener('transitionend',()=>{
-
-                        if(slideShowImages[counter].id === 'lastClone'){
-                            slideShowSlide.style.transition = "none";
-                            counter = slideShowImages.length - 2;
-                            slideShowSlide.style.transform = 'translateX(' + (-imageSize * counter ) + 'px';
+                        for(i = 0;i < dot.length; i++){
+                            dot[i].className = dot[i].className.replace(' active', '');
                         }
 
-                        if(slideShowImages[counter].id === 'firstClone'){
-                            slideShowSlide.style.transition = "none";
-                            counter = slideShowImages.length - counter;
-                            slideShowSlide.style.transform = 'translateX(' + (-imageSize * counter ) + 'px';
+                        if(n > slideShow.length){
+                            counter = 1;
                         }
-                    })
+                        if(n < 1){
+                            counter = slideShow.length;
+                        }
+
+                        slideShow[counter - 1].style.display = "block";
+                        dot[counter - 1].className += " active";
+                    }
                 </script>
             </div>
         </div>
